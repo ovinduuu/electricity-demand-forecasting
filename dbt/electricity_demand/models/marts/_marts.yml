@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_balancing_authority
+    description: One row per tracked balancing authority, with EIA/weather metadata.
+    columns:
+      - name: ba_code
+        tests: [not_null, unique]
+
+  - name: dim_calendar
+    description: One row per date, with day-of-week/weekend/holiday flags.
+    columns:
+      - name: date
+        tests: [not_null, unique]
+
+  - name: fct_demand
+    description: >
+      One row per (date, ba_code): EIA demand + day-ahead forecast, weather,
+      and calendar context.
+    columns:
+      - name: date
+        tests: [not_null]
+      - name: ba_code
+        tests: [not_null]
+      - name: demand_mwh
+        tests: [not_null]

@@ -1,0 +1,23 @@
+name: electricity_demand
+version: "1.0.0"
+config-version: 2
+
+profile: electricity_demand
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  electricity_demand:
+    staging:
+      +materialized: view
+      +schema: electricity_demand_staging
+    marts:
+      +materialized: table
+      +schema: electricity_demand_marts
+
+seeds:
+  electricity_demand:
+    +schema: electricity_demand_staging

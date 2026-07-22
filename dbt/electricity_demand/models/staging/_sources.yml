@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: "{{ env_var('BQ_DATASET_RAW', 'electricity_demand_raw') }}"
+    tables:
+      - name: eia_demand_raw
+        description: >
+          Raw EIA-930 daily demand ("D") and day-ahead demand forecast ("DF")
+          rows by balancing authority, upserted (MERGEd, not appended) by
+          data_engineering/ingest_eia.py - one row per (respondent, type,
+          period) already, since a revised value overwrites the prior row at
+          write time rather than adding a duplicate.
+      - name: weather_raw
+        description: >
+          Raw daily temperature actuals per balancing authority, upserted by
+          data_engineering/ingest_weather.py - one row per (ba_code, date).
