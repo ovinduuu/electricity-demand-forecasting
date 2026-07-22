@@ -97,6 +97,9 @@ def test_degree_days_computed_from_temp_mean():
 def test_optional_columns_produce_extra_features():
     df = _make_history(days=10)
     df["temp_mean_c"] = 15.0
+    # demand_forecast_mwh is present but must NOT become a model feature -
+    # it's never actually available at real serving time (see features.py's
+    # module comment), so training on it is training/serving skew.
     df["demand_forecast_mwh"] = 1000.0
     # one series (2 BAs x 10 days, ordered BA-then-day): holiday on the last
     # day of each series.
@@ -106,7 +109,7 @@ def test_optional_columns_produce_extra_features():
     numeric_and_cat, categorical = feature_columns(featured)
 
     assert "temp_mean_c" in numeric_and_cat
-    assert "demand_forecast_mwh" in numeric_and_cat
+    assert "demand_forecast_mwh" not in numeric_and_cat
     assert "heating_degree_days" in numeric_and_cat
     assert categorical == ["ba_code", "holiday_name"]
     assert (featured["holiday_name"] == "Independence Day").sum() == 2
@@ -116,5 +119,11 @@ def test_feature_columns_omits_missing_optional_columns():
     df = build_features(_make_history(days=5))
     numeric_and_cat, categorical = feature_columns(df)
     assert "temp_mean_c" not in numeric_and_cat
-    assert "demand_forecast_mwh" not in numeric_and_cat
     assert categorical == ["ba_code"]
+
+
+def test_feature_columns_never_includes_demand_forecast_mwh():
+    df = build_features(_make_history(days=5))
+    df["demand_forecast_mwh"] = 1000.0
+    numeric_and_cat, _ = feature_columns(build_features(df))
+    assert "demand_forecast_mwh" not in numeric_and_cat

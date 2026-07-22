@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: marts_raw
+    schema: "{{ env_var('BQ_DATASET_MARTS', 'electricity_demand_marts') }}"
+    tables:
+      - name: fct_demand_predictions
+        description: >
+          One row per (date, ba_code) one-step-ahead prediction, written
+          directly by serving/batch_predict.py (pandas-autodetected schema,
+          not a dbt-managed table) - declared as a source rather than a
+          model so fct_prediction_accuracy can join actuals against it
+          without dbt trying to build it.
