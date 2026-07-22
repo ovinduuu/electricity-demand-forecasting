@@ -52,7 +52,7 @@ export default async function Home() {
           </h2>
           <p className="mt-1 text-sm text-[var(--text-secondary)]">
             How close forecasts came to actual demand, averaged across all 10 tracked grid
-            regions and retrained daily — this doesn&apos;t change when you pick a different
+            regions and retrained daily - this doesn&apos;t change when you pick a different
             region above; see &quot;This Region&quot; under the chart for that.
           </p>
           <div className="mt-4">

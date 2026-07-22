@@ -69,7 +69,7 @@ export default function ForecastDemo({ initialSeries, initialError }: Props) {
           Set <code className="rounded bg-[var(--surface-1)] px-1 py-0.5">
             NEXT_PUBLIC_API_BASE_URL
           </code>{" "}
-          to a running instance of the serving API — see{" "}
+          to a running instance of the serving API - see{" "}
           <code className="rounded bg-[var(--surface-1)] px-1 py-0.5">frontend/README.md</code>.
         </p>
       </div>

@@ -131,7 +131,7 @@ export default function AccuracyChart({ daily, loading }: Props) {
                 <tr key={d.date} className="border-b border-[var(--gridline)] last:border-0">
                   <td className="px-3 py-2 tabular-nums text-[var(--text-primary)]">{d.date}</td>
                   <td className="px-3 py-2 tabular-nums text-[var(--text-primary)]">
-                    {d.mape !== null ? `${(d.mape * 100).toFixed(1)}%` : "—"}
+                    {d.mape !== null ? `${(d.mape * 100).toFixed(1)}%` : "-"}
                   </td>
                   <td className="px-3 py-2 tabular-nums text-[var(--text-primary)]">
                     {d.mae.toFixed(2)}

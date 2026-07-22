@@ -18,7 +18,7 @@ export default function SeriesPicker({ series, selected, onSelect }: Props) {
   return (
     <div className="flex items-center gap-3">
       <label htmlFor="region-picker" className="text-sm font-medium text-[var(--text-secondary)]">
-        Grid region
+        Grid Region
       </label>
       <select
         id="region-picker"
