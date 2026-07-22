@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.venv-*/
+.uv/
+build/
+dist/
+
+# Env / secrets
+.env
+service-account*.json
+*-key.json
+
+# Data
+data/raw/*
+data/external/*
+!data/raw/.gitkeep
+!data/external/.gitkeep
+
+# Terraform
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/.terraform.lock.hcl
+infra/terraform/*.tfvars
+
+# dbt
+dbt/*/target/
+dbt/*/dbt_packages/
+dbt/*/logs/
+profiles.yml
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Local training outputs (models, run logs) — not committed
+artifacts/
+
+# OS / editor
+.DS_Store
+.idea/
+*.log
