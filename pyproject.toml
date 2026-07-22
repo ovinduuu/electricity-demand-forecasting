@@ -25,7 +25,14 @@ ml = [
     "scikit-learn>=1.5",
 ]
 pipelines = [
-    "kfp>=2.7",
+    # Pinned exact, not >=: KFP bakes the SDK version used to *compile* a
+    # pipeline into the spec, and each component reinstalls that exact
+    # version at runtime inside the container to match. Dockerfile's plain
+    # `pip install` doesn't read uv.lock, so an unpinned range let the image
+    # resolve a newer kfp than local dev's locked version - the runtime
+    # version-swap silently broke the run-dbt-transform component (found via
+    # a real Vertex AI pipeline submission, zero container logs emitted).
+    "kfp==2.16.1",
     "google-cloud-aiplatform>=1.60",
 ]
 serving = [
