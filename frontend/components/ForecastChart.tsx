@@ -193,7 +193,7 @@ export default function ForecastChart({
       <div className="flex items-center justify-between">
         <div>
           <figcaption className="text-sm font-medium text-[var(--text-secondary)]">
-            Daily Demand — {seriesLabel}
+            Daily Demand - {seriesLabel}
           </figcaption>
           {seriesAccuracySummary && (
             <p className="mt-0.5 text-xs text-[var(--text-secondary)]">
@@ -232,7 +232,7 @@ export default function ForecastChart({
                     {p.value.toFixed(0)}
                   </td>
                   <td className="px-3 py-2 tabular-nums text-[var(--text-secondary)]">
-                    {predictedByIndex.get(i)?.predicted_demand_mwh.toFixed(0) ?? "—"}
+                    {predictedByIndex.get(i)?.predicted_demand_mwh.toFixed(0) ?? "-"}
                   </td>
                   <td className="px-3 py-2 text-[var(--text-secondary)]">
                     {p.isForecast ? "Forecast" : "Actual"}
