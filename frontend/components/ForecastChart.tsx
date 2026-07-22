@@ -193,11 +193,11 @@ export default function ForecastChart({
       <div className="flex items-center justify-between">
         <div>
           <figcaption className="text-sm font-medium text-[var(--text-secondary)]">
-            Daily demand — {seriesLabel}
+            Daily Demand — {seriesLabel}
           </figcaption>
           {seriesAccuracySummary && (
             <p className="mt-0.5 text-xs text-[var(--text-secondary)]">
-              This region: MAE {seriesAccuracySummary.mae.toFixed(0)} MWh
+              This Region: MAE {seriesAccuracySummary.mae.toFixed(0)} MWh
               {seriesAccuracySummary.mape !== null &&
                 ` · MAPE ${(seriesAccuracySummary.mape * 100).toFixed(1)}%`}{" "}
               ({seriesAccuracySummary.n} matched days)
@@ -412,7 +412,7 @@ export default function ForecastChart({
                 />
                 {hovered.value.toFixed(0)} MWh
                 <span className="font-normal text-[var(--text-secondary)]">
-                  {hovered.isForecast ? "(forecast)" : ""}
+                  {hovered.isForecast ? "(Forecast)" : ""}
                 </span>
               </div>
               {!hovered.isForecast && predictedByIndex.has(hoverIndex ?? -1) && (
@@ -421,7 +421,7 @@ export default function ForecastChart({
                     className="inline-block h-0.5 w-3 border-t-2 border-dashed"
                     style={{ borderColor: "var(--series-2)" }}
                   />
-                  predicted{" "}
+                  Predicted{" "}
                   {predictedByIndex.get(hoverIndex ?? -1)?.predicted_demand_mwh.toFixed(0)} MWh
                 </div>
               )}

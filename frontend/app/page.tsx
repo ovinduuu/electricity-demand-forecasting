@@ -48,12 +48,12 @@ export default async function Home() {
       {series.length > 0 && (
         <section className="border-t border-[var(--gridline)] pt-6">
           <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-            Model Performance — All Regions
+            Model Performance - All Regions
           </h2>
           <p className="mt-1 text-sm text-[var(--text-secondary)]">
             How close forecasts came to actual demand, averaged across all 10 tracked grid
             regions and retrained daily — this doesn&apos;t change when you pick a different
-            region above; see &quot;This region&quot; under the chart for that.
+            region above; see &quot;This Region&quot; under the chart for that.
           </p>
           <div className="mt-4">
             <AccuracyChart daily={accuracy} loading={false} />

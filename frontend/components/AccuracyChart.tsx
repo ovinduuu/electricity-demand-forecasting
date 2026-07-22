@@ -103,7 +103,7 @@ export default function AccuracyChart({ daily, loading }: Props) {
     <figure className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <figcaption className="text-sm font-medium text-[var(--text-secondary)]">
-          Forecast accuracy (MAPE, daily average)
+          Forecast Accuracy (MAPE, Daily Average)
         </figcaption>
         <button
           type="button"
@@ -248,7 +248,7 @@ export default function AccuracyChart({ daily, loading }: Props) {
               </div>
               <div className="mt-0.5 text-[var(--text-secondary)]">
                 MAE {hovered.mae.toFixed(2)} · RMSE {hovered.rmse.toFixed(2)} ·{" "}
-                {hovered.n_predictions.toLocaleString()} predictions
+                {hovered.n_predictions.toLocaleString()} Predictions
               </div>
             </div>
           )}
