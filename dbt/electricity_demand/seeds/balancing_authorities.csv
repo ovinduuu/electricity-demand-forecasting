@@ -1,0 +1,11 @@
+ba_code,ba_name,eia_timezone,weather_city,weather_lat,weather_lon,weather_iana_tz
+PJM,PJM Interconnection,Eastern,"Philadelphia, PA",39.9526,-75.1652,America/New_York
+CISO,California ISO,Pacific,"Sacramento, CA",38.5816,-121.4944,America/Los_Angeles
+ERCO,ERCOT,Central,"Dallas, TX",32.7767,-96.797,America/Chicago
+MISO,Midcontinent ISO,Eastern,"Indianapolis, IN",39.7684,-86.1581,America/Indiana/Indianapolis
+SWPP,Southwest Power Pool,Central,"Kansas City, MO",39.0997,-94.5786,America/Chicago
+ISNE,ISO New England,Eastern,"Boston, MA",42.3601,-71.0589,America/New_York
+NYIS,New York ISO,Eastern,"Albany, NY",42.6526,-73.7562,America/New_York
+SOCO,Southern Company,Eastern,"Atlanta, GA",33.749,-84.388,America/New_York
+FPL,Florida Power & Light,Eastern,"Miami, FL",25.7617,-80.1918,America/New_York
+TVA,Tennessee Valley Authority,Central,"Nashville, TN",36.1627,-86.7816,America/Chicago
