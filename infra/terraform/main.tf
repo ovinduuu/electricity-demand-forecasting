@@ -134,6 +134,33 @@ resource "google_bigquery_dataset" "marts" {
   location   = var.bq_location
 }
 
+# Explicit schema for the same reason as eia_demand_raw/weather_raw: without
+# this, the table only springs into existence the first time
+# batch_predict.py/backfill_predictions.py writes to it, which makes dbt's
+# fct_prediction_accuracy model (a source read, see models/marts/_sources.yml)
+# fail on every dbt run until that first write happens - a real bootstrapping
+# failure hit on the first live Vertex AI pipeline run (run_dbt_transform
+# failed: "Table ...fct_demand_predictions was not found").
+resource "google_bigquery_table" "fct_demand_predictions" {
+  depends_on = [google_bigquery_dataset.marts]
+
+  dataset_id          = google_bigquery_dataset.marts.dataset_id
+  table_id            = "fct_demand_predictions"
+  project             = var.project_id
+  deletion_protection = false
+
+  time_partitioning {
+    type  = "DAY"
+    field = "date"
+  }
+
+  schema = jsonencode([
+    { name = "date", type = "DATE", mode = "REQUIRED" },
+    { name = "ba_code", type = "STRING", mode = "REQUIRED" },
+    { name = "predicted_demand_mwh", type = "FLOAT64", mode = "NULLABLE" },
+  ])
+}
+
 # --- Artifact Registry for pipeline/serving container images ----------------
 resource "google_artifact_registry_repository" "images" {
   depends_on = [google_project_service.apis]
