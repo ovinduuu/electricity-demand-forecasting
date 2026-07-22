@@ -51,16 +51,22 @@ BASE_NUMERIC_FEATURES = (
     + [f"demand_roll_std_{window}" for window in ROLLING_WINDOWS]
     + ["dayofweek", "is_weekend", "month", "is_holiday"]
 )
-# temp_mean_c/demand_forecast_mwh kept optional (same pattern as the old
-# project's sell_price/snap_flag) even though fct_demand always has them
-# today - keeps this resilient if a caller ever selects a reduced column set
-# (e.g. a live forecast day before weather has backfilled).
-OPTIONAL_NUMERIC_FEATURES = [
-    "temp_mean_c",
-    "demand_forecast_mwh",
-    "heating_degree_days",
-    "cooling_degree_days",
-]
+# demand_forecast_mwh is deliberately NOT a model input feature, even though
+# it's a strong predictor and present in every training row: under this
+# project's ingest design (see ingest_eia.py), EIA's day-ahead forecast for
+# a not-yet-happened date is never actually available at real serving time
+# (batch_predict.py's stub row can't populate it) - training on it anyway is
+# training/serving skew, and a model trained with it silently produces
+# garbage predictions the moment it's missing (found via a real end-to-end
+# smoke test: PJM's live forecast came out ~4x too low). It's kept as an
+# evaluation *benchmark* in evaluate.py instead - a genuine "did our model
+# (with no privileged information) beat EIA's own forecast" comparison.
+#
+# temp_mean_c kept optional (same pattern as the old project's sell_price/
+# snap_flag) - batch_predict.py's stub row fills it via persistence
+# (yesterday's actual) rather than leaving it NaN, since the model always
+# sees it populated in training and has no learned behavior for missing it.
+OPTIONAL_NUMERIC_FEATURES = ["temp_mean_c", "heating_degree_days", "cooling_degree_days"]
 # holiday_name gives the model finer-grained signal than is_holiday alone -
 # July 4th and Thanksgiving have very different demand shapes, not just
 # "holiday vs. not."

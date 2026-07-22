@@ -62,8 +62,17 @@ def evaluate_eia_day_ahead_forecast(df: pd.DataFrame) -> dict:
     (demand_forecast_mwh) against the actual (demand_mwh)? A genuine "did our
     model beat the grid operator's own forecast" number, not a naive
     baseline - EIA already publishes one, unlike M5's retail data.
+
+    demand_forecast_mwh is an optional column (see features.py) - callers
+    without it (e.g. a reduced-column extract) get an empty/None result
+    rather than a KeyError.
     """
+    if "demand_forecast_mwh" not in df.columns:
+        return {"mape": None, "rmse": None, "n": 0}
+
     scored = df.dropna(subset=["demand_mwh", "demand_forecast_mwh"])
+    if scored.empty:
+        return {"mape": None, "rmse": None, "n": 0}
     return {
         "mape": mape(scored["demand_mwh"], scored["demand_forecast_mwh"]),
         "rmse": rmse(scored["demand_mwh"], scored["demand_forecast_mwh"]),

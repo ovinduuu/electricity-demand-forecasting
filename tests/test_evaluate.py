@@ -64,3 +64,11 @@ def test_evaluate_eia_day_ahead_forecast_scores_df_column():
     # the null-demand row is dropped, so only 2 rows scored.
     assert result["n"] == 2
     assert result["mape"] > 0
+
+
+def test_evaluate_eia_day_ahead_forecast_handles_missing_column():
+    # demand_forecast_mwh is optional (see features.py) - a caller without
+    # it must not KeyError.
+    df = pd.DataFrame({"demand_mwh": [1000.0, 2000.0]})
+    result = evaluate_eia_day_ahead_forecast(df)
+    assert result == {"mape": None, "rmse": None, "n": 0}
