@@ -42,3 +42,5 @@ artifacts/
 .DS_Store
 .idea/
 *.log
+
+.vercel
