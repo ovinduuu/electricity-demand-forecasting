@@ -4,8 +4,10 @@ upserts it, keyed on (ba_code, date) - same trailing-window-upsert shape as
 ingest_eia.py, since Open-Meteo's reanalysis archive can also revise very
 recent days as more observations come in.
 
-Meant to run as a scheduled Cloud Run Job alongside ingest_eia.py (see
-infra/terraform).
+Meant to run as a scheduled Cloud Run Job alongside ingest_eia.py, and last
+in that pair (see infra/terraform's schedule) - once both raw sources have
+landed, this also re-runs dbt so the marts (fct_demand) reflect today's data
+before drift-check/batch-predict/retrain-trigger run.
 
 Local dev (no --project-id): pass --local-out to upsert into a local CSV
 instead of BigQuery.
@@ -45,6 +47,12 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--end-date", default=None, help="Backfill mode: explicit end date.")
     parser.add_argument("--local-out", default=None, help="Local CSV path - dev mode without GCP.")
+    parser.add_argument("--bq-location", default="US")
+    parser.add_argument(
+        "--skip-dbt",
+        action="store_true",
+        help="Skip the dbt run after merging - useful for a standalone backfill.",
+    )
     return parser.parse_args()
 
 
@@ -83,6 +91,12 @@ def main() -> None:
         f"Merged {len(rows)} row(s) for {start_date}..{end_date} into "
         f"{args.project_id}.{args.raw_dataset}.{args.raw_table}."
     )
+
+    if not args.skip_dbt:
+        from electricity_demand.data_engineering.dbt_runner import run_dbt
+
+        run_dbt(args.project_id, args.bq_location)
+        print("dbt run complete.")
 
 
 if __name__ == "__main__":
